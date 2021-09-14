@@ -1,0 +1,13 @@
+<h2>Map of forklifts</h2>
+
+<div class="map-background" *ngFor="let forklift of forkliftList">
+  <div class="forklift" [ngStyle]="{'left': ((forklift.x).toString()+'px'),
+  'top': (forklift.y.toString()+'px'), 'z-index': forklift.id}"></div>
+</div>
+
+<ul *ngFor="let forklift of forkliftList">
+  <li>
+    <span class="badge">{{forklift.id}}</span> {{forklift.x}} {{forklift.y}}
+    <button title="delete" (click)="delete(forklift)">DELETE</button>
+  </li>
+</ul>

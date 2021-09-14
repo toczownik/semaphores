@@ -1,0 +1,13 @@
+.map-background {
+  background-color: blue;
+  position: absolute;
+  width: 640px;
+  height: 480px;
+}
+
+.forklift {
+  background-color: red;
+  width: 5px;
+  height: 5px;
+  position: absolute;
+}
