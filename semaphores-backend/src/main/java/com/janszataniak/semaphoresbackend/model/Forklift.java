@@ -6,10 +6,13 @@ import javax.persistence.*;
 @Table(name = "forklifts")
 public class Forklift {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int serialNumber;
     private int x;
     private int y;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "warehouse_id")
+    private Warehouse warehouse;
 
     public Forklift() {}
 
@@ -18,8 +21,8 @@ public class Forklift {
         this.y = y;
     }
 
-    public Long getId() {
-        return id;
+    public int getSerialNumber() {
+        return serialNumber;
     }
 
     public int getX() {
@@ -30,8 +33,8 @@ public class Forklift {
         return y;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setSerialNumber(int serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     public void setX(int x) {

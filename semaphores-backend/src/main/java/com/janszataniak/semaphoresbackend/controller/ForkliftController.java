@@ -1,7 +1,9 @@
 package com.janszataniak.semaphoresbackend.controller;
 
+import com.janszataniak.semaphoresbackend.model.Warehouse;
 import com.janszataniak.semaphoresbackend.repository.ForkliftRepository;
 import com.janszataniak.semaphoresbackend.model.Forklift;
+import com.janszataniak.semaphoresbackend.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,15 +17,17 @@ import java.util.List;
 public class ForkliftController {
 
     private ForkliftRepository forkliftRepository;
+    private WarehouseRepository warehouseRepository;
 
     @Autowired
-    public ForkliftController(ForkliftRepository forkliftRepository) {
+    public ForkliftController(ForkliftRepository forkliftRepository, WarehouseRepository warehouseRepository) {
         this.forkliftRepository = forkliftRepository;
+        this.warehouseRepository = warehouseRepository;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Forklift getForkliftById(@PathVariable("id") Long id) {
-        return forkliftRepository.findById(id);
+    @RequestMapping(value = "/{serialNumber}", method = RequestMethod.GET)
+    public Forklift getForkliftBySerialNumber(@PathVariable("serialNumber") int serialNumber) {
+        return forkliftRepository.findBySerialNumber(serialNumber);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -31,9 +35,12 @@ public class ForkliftController {
         return forkliftRepository.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Forklift> deleteForkliftById(@PathVariable("id") Long id) {
-        Forklift forklift = forkliftRepository.findById(id);
+    @RequestMapping(value = "/{serialNumber}", method = RequestMethod.DELETE)
+    public ResponseEntity<Forklift> deleteForkliftBySerialNumber(@PathVariable("serialNumber") int serialNumber) {
+        Forklift forklift = forkliftRepository.findBySerialNumber(serialNumber);
+        if (forklift == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         forkliftRepository.delete(forklift);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -44,11 +51,17 @@ public class ForkliftController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Forklift> putForklift(@PathVariable("id") Long id, @RequestBody Forklift forklift) {
-        forklift.setId(id);
+    @RequestMapping(value = "/{serialNumber}", method = RequestMethod.PUT)
+    public ResponseEntity<Forklift> putForklift(@PathVariable("serialNumber") int serialNumber,
+                                                @RequestBody Forklift forklift) {
+        forklift.setSerialNumber(serialNumber);
         forkliftRepository.save(forklift);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(value = "/{warehouseId}", method = RequestMethod.GET)
+    public List<Forklift> getForkliftsByWarehouse(@PathVariable("warehouseId") int warehouseId) {
+        return forkliftRepository.findByWarehouseId(warehouseId);
     }
 
     private void update(Forklift forklift, int x, int y) {
