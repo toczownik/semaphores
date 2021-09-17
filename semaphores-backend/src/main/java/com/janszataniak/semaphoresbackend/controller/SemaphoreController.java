@@ -1,7 +1,9 @@
 package com.janszataniak.semaphoresbackend.controller;
 
 import com.janszataniak.semaphoresbackend.model.Semaphore;
+import com.janszataniak.semaphoresbackend.model.Warehouse;
 import com.janszataniak.semaphoresbackend.repository.SemaphoreRepository;
+import com.janszataniak.semaphoresbackend.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +16,12 @@ import java.util.List;
 @RequestMapping("restApi/semaphores")
 public class SemaphoreController {
     private SemaphoreRepository semaphoreRepository;
+    private WarehouseRepository warehouseRepository;
 
     @Autowired
-    public SemaphoreController(SemaphoreRepository semaphoreRepository) {
+    public SemaphoreController(SemaphoreRepository semaphoreRepository, WarehouseRepository warehouseRepository) {
         this.semaphoreRepository = semaphoreRepository;
+        this.warehouseRepository = warehouseRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -30,8 +34,14 @@ public class SemaphoreController {
         return semaphoreRepository.getSemaphoresByWarehouseId(warehouseId);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Semaphore> addSemaphore(@RequestBody Semaphore semaphore) {
+    @RequestMapping(value = "/{warehouseId}", method = RequestMethod.POST)
+    public ResponseEntity<Semaphore> addSemaphore(@PathVariable("warehouseId") int warehouseId,
+                                                  @RequestBody Semaphore semaphore) {
+        Warehouse warehouse = warehouseRepository.getById(warehouseId);
+        if (warehouse == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        semaphore.setWarehouse(warehouse);
         semaphoreRepository.save(semaphore);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

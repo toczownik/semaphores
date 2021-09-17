@@ -11,3 +11,8 @@
   height: 5px;
   position: absolute;
 }
+
+.semaphore {
+  background-color: yellow;
+  position: absolute;
+}

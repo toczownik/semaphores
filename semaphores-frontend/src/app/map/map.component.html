@@ -1,13 +1,14 @@
 <h2>Map of forklifts</h2>
 
-<div class="map-background" *ngFor="let forklift of forkliftList">
-  <div class="forklift" [ngStyle]="{'left': ((forklift.x).toString()+'px'),
-  'top': (forklift.y.toString()+'px'), 'z-index': forklift.id}"></div>
+<div class="map-background" >
+  <div *ngFor="let forklift of forkliftList">
+    <div class="forklift" [ngStyle]="{'left': (forklift.x.toString()+'px'),
+    'top': (forklift.y.toString()+'px'), 'z-index': forklift.serialNumber}"></div>
+  </div>
+  <div *ngFor="let semaphore of semaphoreList">
+    <div class="semaphore" [ngStyle]="{'left': (semaphore.x.toString()+'px'),'top': (semaphore.y.toString()+'px'),
+    'width': (semaphore.width.toString()+'px'), 'height': (semaphore.height.toString()+'px')}"></div>
+  </div>
 </div>
 
-<ul *ngFor="let forklift of forkliftList">
-  <li>
-    <span class="badge">{{forklift.id}}</span> {{forklift.x}} {{forklift.y}}
-    <button title="delete" (click)="delete(forklift)">DELETE</button>
-  </li>
-</ul>
+

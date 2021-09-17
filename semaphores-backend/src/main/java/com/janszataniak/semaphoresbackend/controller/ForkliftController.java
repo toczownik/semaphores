@@ -45,8 +45,15 @@ public class ForkliftController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Forklift> addForklift(@RequestBody Forklift forklift) {
+    @RequestMapping(value = "/{warehouseId}", method = RequestMethod.POST)
+    public ResponseEntity<Forklift> addForklift(@PathVariable("warehouseId") int warehouseId, @RequestBody Forklift forklift) {
+        Warehouse warehouse = warehouseRepository.getById(warehouseId);
+        if (warehouse == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        forklift.setX(0);
+        forklift.setY(0);
+        forklift.setWarehouse(warehouse);
         forkliftRepository.save(forklift);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

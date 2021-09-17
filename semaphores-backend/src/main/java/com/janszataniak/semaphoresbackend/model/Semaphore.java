@@ -9,10 +9,14 @@ public class Semaphore {
     private int id;
     private int x;
     private int y;
-    private int weight;
+    private int width;
     private int height;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "warehouse_id")
     Warehouse warehouse;
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
 }

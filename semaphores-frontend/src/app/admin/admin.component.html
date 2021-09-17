@@ -1,1 +1,53 @@
-<p>admin works!</p>
+<div>
+  <label>Forklift serial number:
+    <input #serialNumber type="number">
+  </label>
+  <br>
+  <label>WAREHOUSE:
+    <input #warehouseId type="number">
+  </label>
+  <br>
+  <button (click)="addForklift(serialNumber.value, warehouseId.value);">
+    ADD
+  </button>
+</div>
+<br>
+<div>
+  <label>X:
+    <input #x type="number">
+  </label>
+  <br>
+  <label>Y:
+    <input #y type="number">
+  </label>
+  <br>
+  <label>WIDTH:
+    <input #width type="number">
+  </label>
+  <br>
+  <label>HEIGHT:
+    <input #height type="number">
+  </label>
+  <br>
+  <label>WAREHOUSE:
+    <input #warehouseId type="number">
+  </label>
+  <br>
+  <button (click)="addSemaphore(x.value, y.value, width.value, height.value, warehouseId.value)">
+    ADD
+  </button>
+</div>
+
+<ul *ngFor="let forklift of forkliftList">
+  <li>
+    <span class="badge">{{forklift.serialNumber}}</span> {{forklift.x}} {{forklift.y}}
+    <button title="delete" (click)="deleteForklift(forklift)">DELETE</button>
+  </li>
+</ul>
+
+<ul *ngFor="let semaphore of semaphoreList">
+  <li>
+    <span class="badge">{{semaphore.id}}</span> {{semaphore.x}} {{semaphore.y}}
+    <button title="delete" (click)="deleteSemaphore(semaphore)">DELETE</button>
+  </li>
+</ul>

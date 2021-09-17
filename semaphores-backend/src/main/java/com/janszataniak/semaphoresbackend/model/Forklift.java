@@ -44,4 +44,8 @@ public class Forklift {
     public void setY(int y) {
         this.y = y;
     }
+
+    public void setWarehouse(Warehouse warehouse) {
+        this.warehouse = warehouse;
+    }
 }
