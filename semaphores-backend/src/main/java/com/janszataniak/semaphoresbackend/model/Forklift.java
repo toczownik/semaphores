@@ -1,6 +1,7 @@
 package com.janszataniak.semaphoresbackend.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "forklifts")
@@ -14,23 +15,17 @@ public class Forklift {
     @JoinColumn(name = "warehouse_id")
     private Warehouse warehouse;
 
-    public Forklift() {}
+    @OneToMany(mappedBy = "forklift", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    private List<Semaphore> semaphores;
 
-    public Forklift(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+    public Forklift() {}
 
     public int getSerialNumber() {
         return serialNumber;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    public Warehouse getWarehouse() {
+        return warehouse;
     }
 
     public void setSerialNumber(int serialNumber) {
@@ -47,5 +42,9 @@ public class Forklift {
 
     public void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
+    }
+
+    public void clearSemaphores() {
+        this.semaphores.clear();
     }
 }

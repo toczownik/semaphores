@@ -8,10 +8,11 @@ export class Semaphore {
   height: number;
   warehouse: Warehouse;
 
-  constructor(x: number, y: number, width: number, height: number) {
+  constructor(x: number, y: number, width: number, height: number, warehouse: Warehouse) {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
+    this.warehouse = warehouse;
   }
 }

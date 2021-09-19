@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("restApi/semaphores")
+@RequestMapping("/restApi/semaphores")
 public class SemaphoreController {
     private SemaphoreRepository semaphoreRepository;
     private WarehouseRepository warehouseRepository;
@@ -34,14 +34,9 @@ public class SemaphoreController {
         return semaphoreRepository.getSemaphoresByWarehouseId(warehouseId);
     }
 
-    @RequestMapping(value = "/{warehouseId}", method = RequestMethod.POST)
-    public ResponseEntity<Semaphore> addSemaphore(@PathVariable("warehouseId") int warehouseId,
-                                                  @RequestBody Semaphore semaphore) {
-        Warehouse warehouse = warehouseRepository.getById(warehouseId);
-        if (warehouse == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        semaphore.setWarehouse(warehouse);
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity<Semaphore> addSemaphore(@RequestBody Semaphore semaphore) {
+        semaphore.setWarehouse(warehouseRepository.getById(semaphore.getWarehouse().getId()));
         semaphoreRepository.save(semaphore);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

@@ -29,9 +29,8 @@ export class SemaphoreService {
     return this.http.get<Semaphore[]>(this.semaphoresUrl);
   }
 
-  addSemaphore(semaphore: Semaphore, warehouseId: string): Observable<Semaphore> {
-    const url = `${this.semaphoresUrl}/${warehouseId}`;
-    return this.http.post<Semaphore>(url, semaphore, httpOptions).pipe(
+  addSemaphore(semaphore: Semaphore): Observable<Semaphore> {
+    return this.http.post<Semaphore>(this.semaphoresUrl, semaphore, httpOptions).pipe(
       tap((semaphoreAdded: Semaphore) => this.log(`added semaphore id=${semaphoreAdded.id}`)),
       catchError(this.handleError<Semaphore>('addSemaphore'))
     )

@@ -4,6 +4,7 @@ import {Observable, of} from "rxjs";
 import {Warehouse} from "../models/warehouse.model";
 import {catchError, tap} from "rxjs/operators";
 import {Forklift} from "../models/forklift.model";
+import {Semaphore} from "../models/semaphore.model";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -13,15 +14,22 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class WarehouseService {
-  private warehouseUrl = 'http://localhost:8080/restApi/warehouse';
+  private warehouseUrl = 'http://localhost:8080/restApi/warehouses';
 
   constructor(private http: HttpClient) { }
 
   getWarehouse(id: number): Observable<Warehouse> {
     const url = `${this.warehouseUrl}/${id}`;
     return this.http.get<Warehouse>(url).pipe(
-      tap(_ => this.log(`deleted warehouse id=${id}`)),
-      catchError(this.handleError<Warehouse>('deletewarehouse'))
+      tap(_ => this.log(`fetched warehouse id=${id}`)),
+      catchError(this.handleError<Warehouse>('deleteWarehouse'))
+    )
+  }
+
+  getWarehouses(): Observable<Warehouse[]> {
+    return this.http.get<Warehouse[]>(this.warehouseUrl).pipe(
+      tap(_ => this.log(`fetched warehouses`)),
+      catchError(this.handleError<Warehouse[]>('getWarehouse'))
     )
   }
 

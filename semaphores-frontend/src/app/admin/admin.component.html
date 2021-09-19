@@ -47,7 +47,7 @@
 
 <ul *ngFor="let semaphore of semaphoreList">
   <li>
-    <span class="badge">{{semaphore.id}}</span> {{semaphore.x}} {{semaphore.y}}
+    <span class="badge">{{semaphore.id}}</span> {{semaphore.x}} {{semaphore.y}} {{semaphore.warehouse}}
     <button title="delete" (click)="deleteSemaphore(semaphore)">DELETE</button>
   </li>
 </ul>

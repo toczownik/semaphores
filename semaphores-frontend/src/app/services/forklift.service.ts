@@ -28,13 +28,13 @@ export class ForkliftService {
     return this.http.get<Forklift[]>(this.forkliftsUrl);
   }
 
-  addForklift(forklift: Forklift, warehouseId: string): Observable<Forklift> {
-    const url = `${this.forkliftsUrl}/${warehouseId}`;
-    return this.http.post<Forklift>(url, forklift, httpOptions).pipe(
+  addForklift(forklift: Forklift): Observable<Forklift> {
+    return this.http.post<Forklift>(this.forkliftsUrl, forklift, httpOptions).pipe(
       tap(forkliftAdded => this.log(`added forklift serial number=${forkliftAdded.serialNumber}`)),
       catchError(this.handleError<Forklift>(`addForklift`))
     )
   }
+
 
   deleteForklift(forklift: Forklift | number): Observable<Forklift> {
     const serialNumber = typeof forklift === 'number' ? forklift : forklift.serialNumber;
