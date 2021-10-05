@@ -15,6 +15,4 @@ public interface ForkliftRepository extends JpaRepository<Forklift, Integer> {
     List<Forklift> findByWarehouse(Warehouse warehouse);
 
     List<Forklift> findByWarehouseId(int warehouseId);
-
-    Forklift findBySemaphore(Semaphore semaphore);
 }

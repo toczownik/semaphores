@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/restApi/warehouses")
+@RequestMapping("/  restApi/warehouses")
 public class WarehouseController {
     private WarehouseRepository warehouseRepository;
 

@@ -1,5 +1,7 @@
 package com.janszataniak.semaphoresbackend.model;
 
+import org.springframework.context.annotation.PropertySource;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,7 +20,7 @@ public class Semaphore {
     Warehouse warehouse;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "semaphore_id")
+    @JoinColumn(name = "forklift_serial_number")
     Forklift forklift;
 
     public Semaphore() {
